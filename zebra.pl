@@ -2,7 +2,6 @@ person([who(_), house(_), drinks(_), smokes(_), owns(_)]).
 property(P, A) :- person(A), member(P, A).
 
 constraint(P1, P2, L) :- property(P1, A), property(P2, A), member(A, L).
-constraint(P, L) :- property(P, A), member(A, L).
 
 constraint_at(0, P, [H | _]) :- property(P, H).
 constraint_at(I, P, [_ | T]) :- J is I-1, constraint_at(J, P, T).
@@ -28,6 +27,4 @@ zebra(People) :-
   constraint_next(smokes(kools), owns(horse), People),
   constraint(drinks(juice), smokes(lucky), People),
   constraint(who(japanese), smokes(parliaments), People),
-  constraint_next(who(norwegian), house(blue), People),
-  constraint(drinks(water), People),
-  constraint(owns(zebra), People).
+  constraint_next(who(norwegian), house(blue), People).

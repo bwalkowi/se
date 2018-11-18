@@ -220,16 +220,6 @@ The boat can hold either two children or one adult.
 Can the adults succeed in crossing the river? If so, how?
 
 
-Title: Cryptarithmetic
-
-   SEND+
-   MORE
-   -----
-   MONEY
-Solution is: [S,E,N,D,M,O,R,Y]=[9, 5, 6, 7, 1, 0, 8, 2],
-Assign different values 0-9 to all letters S,E,N,D,M,O,R,Y in such a way that the equation holds
-
-
 Title:  For finding word squares    3x3  
 	Generates word squares.
 A word square is an arrangement of letters in a square such that each row and each column is a word in the dictionary. 
@@ -238,7 +228,7 @@ A word square is an arrangement of letters in a square such that each row and ea
 	t-a-b
 	e-p-a
 	n-e-t
-	
+
 
 Give us sum and transform it in coins. US coins are: 
 1 Quater = 25 cents

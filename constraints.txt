@@ -1,0 +1,8 @@
+'englishman lives in red house'.
+'spaniard owns dog'.
+'who lives in green house drinks coffee'.
+'ukrainian drinks tea'.
+'who smokes old_gold owns snails'.
+'who lives in yellow house smokes kools'.
+'who drinks juice smokes lucky_strike'.
+'japanese smokes parliaments'.

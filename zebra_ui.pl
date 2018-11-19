@@ -19,7 +19,6 @@ zebra(People) :-
   close(Str),
   % write(Constraints), nl,
   length(People, 5),
-  constraint_left(house("ivory"), house("green"), People),
   constraint_at(2, drinks("milk"), People),
   constraint_at(0, who("norwegian"), People),
   validate_constraints(Constraints, People).
@@ -41,17 +40,19 @@ validate_constraints([H|T], People) :-
   validate_constraints(T, People).
 
 apply_constraint(["who" | L], People) :-
-  append(X, ["lives", "next", "to", "one", "who" | Y], L),
+  append(X, ["lives", RP, "to", "one", "who" | Y], L),
   parse_constraint(X, C1),
   parse_constraint(Y, C2),
-  constraint_next(C1, C2, People).
+  constraint_relative_pos(C1, C2, RP, People).
 
 apply_constraint(["who" | L], People) :-
-  append(X, Y, L), parse_constraint(X, C1),
-  parse_constraint(Y, C2), constraint(C1, C2, People).
+  append(X, Y, L),
+  parse_constraint(X, C1),
+  parse_constraint(Y, C2),
+  constraint(C1, C2, People).
 
-apply_constraint([X, "lives", "next", "to", "one", "who" | Y], People) :-
-  parse_constraint(Y, C), constraint_next(who(X), C, People).
+apply_constraint([X, "lives", RP, "to", "one", "who" | Y], People) :-
+  parse_constraint(Y, C), constraint_relative_pos(who(X), C, RP, People).
 
 apply_constraint([X | Y], People) :-
   parse_constraint(Y, C), constraint(who(X), C, People).
@@ -60,3 +61,7 @@ parse_constraint(["lives", "in", X, "house"], house(X)).
 parse_constraint(["drinks", X], drinks(X)).
 parse_constraint(["owns", X], owns(X)).
 parse_constraint(["smokes", X], smokes(X)).
+
+constraint_relative_pos(C1, C2, "next", People) :- constraint_next(C1, C2, People).
+constraint_relative_pos(C1, C2, "left", People) :- constraint_left(C1, C2, People).
+constraint_relative_pos(C1, C2, "right", People) :- constraint_left(C2, C1, People).

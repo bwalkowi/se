@@ -22,9 +22,6 @@ zebra(People) :-
   constraint_left(house("ivory"), house("green"), People),
   constraint_at(2, drinks("milk"), People),
   constraint_at(0, who("norwegian"), People),
-  constraint_next(smokes("chesterfields"), owns("fox"), People),
-  constraint_next(smokes("kools"), owns("horse"), People),
-  constraint_next(who("norwegian"), house("blue"), People),
   validate_constraints(Constraints, People).
 
 read_constraints(Stream,[]) :- at_end_of_stream(Stream).
@@ -44,7 +41,17 @@ validate_constraints([H|T], People) :-
   validate_constraints(T, People).
 
 apply_constraint(["who" | L], People) :-
-  append(X, Y, L), parse_constraint(X, C1), parse_constraint(Y, C2), constraint(C1, C2, People).
+  append(X, ["lives", "next", "to", "one", "who" | Y], L),
+  parse_constraint(X, C1),
+  parse_constraint(Y, C2),
+  constraint_next(C1, C2, People).
+
+apply_constraint(["who" | L], People) :-
+  append(X, Y, L), parse_constraint(X, C1),
+  parse_constraint(Y, C2), constraint(C1, C2, People).
+
+apply_constraint([X, "lives", "next", "to", "one", "who" | Y], People) :-
+  parse_constraint(Y, C), constraint_next(who(X), C, People).
 
 apply_constraint([X | Y], People) :-
   parse_constraint(Y, C), constraint(who(X), C, People).

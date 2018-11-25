@@ -13,37 +13,47 @@ constraint_next(PA, PB, L) :- constraint_left(PA, PB, L).
 constraint_next(PA, PB, L) :- constraint_left(PB, PA, L).
 
 zebra(People) :-
-  open('constraints.txt',read,Str),
-  read_constraints(Str, Constraints),
-  !,
-  close(Str),
-  % write(Constraints), nl,
-  length(People, 5),
-  constraint_at(2, drinks("milk"), People),
-  constraint_at(0, who("norwegian"), People),
+  open('zebra_constraints.txt', read, Stream),
+  read_constraints(Stream, Constraints),
+  close(Stream),
   validate_constraints(Constraints, People).
 
-read_constraints(Stream,[]) :- at_end_of_stream(Stream).
+read_constraints(Stream, []) :- at_end_of_stream(Stream), !.
 
-read_constraints(Stream,[X|L]) :-
-  \+ at_end_of_stream(Stream),
-  read(Stream,X),
-  read_constraints(Stream,L).
+read_constraints(Stream, [X|L]) :-
+  read(Stream, X),
+  read_constraints(Stream, L).
 
 % last element is the end of file marker
-validate_constraints([_], _).
+validate_constraints([end_of_file], _).
 
 validate_constraints([H|T], People) :-
-  % write(H), nl,
-  split_string(H, " ", "", L),
+  string_lower(H, S),
+  split_string(S, " ,.", "", L0),
+  exclude(exclude_word, L0, L),
   apply_constraint(L, People),
   validate_constraints(T, People).
+
+exclude_word("the").
+exclude_word("a").
+exclude_word("an").
+exclude_word("").
+
+apply_constraint(["there", "are", X, "houses"], People) :-
+  atom_number(X, N),
+  length(People, N).
 
 apply_constraint(["who" | L], People) :-
   append(X, ["lives", RP, "to", "one", "who" | Y], L),
   parse_constraint(X, C1),
   parse_constraint(Y, C2),
   constraint_relative_pos(C1, C2, RP, People).
+
+apply_constraint(["who" | L], People) :-
+  append(X, ["lives",  "at", Y], L),
+  parse_constraint(X, C),
+  atom_number(Y, N),
+  constraint_at(N, C, People).
 
 apply_constraint(["who" | L], People) :-
   append(X, Y, L),
@@ -53,6 +63,10 @@ apply_constraint(["who" | L], People) :-
 
 apply_constraint([X, "lives", RP, "to", "one", "who" | Y], People) :-
   parse_constraint(Y, C), constraint_relative_pos(who(X), C, RP, People).
+
+apply_constraint([X, "lives",  "at", Y], People) :-
+  atom_number(Y, N),
+  constraint_at(N, who(X), People).
 
 apply_constraint([X | Y], People) :-
   parse_constraint(Y, C), constraint(who(X), C, People).

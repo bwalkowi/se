@@ -1,0 +1,15 @@
+'There are 5 houses.'.
+'The Englishman lives in the red house.'.
+'The Spaniard owns the dog.'.
+'Who lives in the green house drinks coffee.'.
+'The Ukrainian drinks tea.'.
+'Who lives in the green house lives right to the one who lives in the ivory house.'.
+'Who smokes Old-Gold owns snails.'.
+'Who lives in the yellow house smokes Kools.'.
+'Who drinks milk lives at 2.'.
+'The Norwegian lives at 0.'.
+'Who smokes Chesterfields lives next to the one who owns the fox.'.
+'Who smokes Kools lives next to the one who owns the horse.'.
+'Who drinks juice smokes Lucky-Strike.'.
+'The Japanese smokes parliaments.'.
+'The Norwegian lives next to the one who lives in the blue house.'.

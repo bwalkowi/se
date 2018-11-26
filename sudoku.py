@@ -80,6 +80,7 @@ class Sudoku(Frame):
         self._draw_cursor()        
 
     def _clear(self):
+        self.solutions = None
         for i in range(9):
             for j in range(9):
                 self.puzzle[i][j] = 0
